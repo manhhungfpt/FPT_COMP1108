@@ -1,0 +1,56 @@
+﻿using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class PipeController : MonoBehaviour
+{
+    public float speed;
+
+    // Start is called before the first frame update
+    void Start()
+    {
+        
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+        if (BirdController.instance!=null)
+        {
+            if(BirdController.instance.flag == 1)
+            {
+                Destroy(GetComponent<PipeController>());
+            }
+        }
+        _pipeMovement();
+    }
+
+    void _pipeMovement()
+    {
+        if (BirdController.instance.score < 7)
+        {
+            Vector3 temp = transform.position;
+            temp.x -= speed * Time.deltaTime;
+            transform.position = temp;
+        }else if(BirdController.instance.score >= 7)
+        {
+            Vector3 temp = transform.position;
+            temp.x -= (speed +1) * Time.deltaTime;
+            transform.position = temp;
+        }
+        else if (BirdController.instance.score >= 50)
+        {
+            Vector3 temp = transform.position;
+            temp.x -= (speed + 2) * Time.deltaTime;
+            transform.position = temp;
+        }
+    }
+
+    private void OnTriggerEnter2D(Collider2D target)
+    {
+        if(target.tag == "Destroy")
+        {
+            Destroy(gameObject);
+        }
+    }
+}
